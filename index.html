@@ -19,41 +19,56 @@
         .btn {
             background-color: #2481cc;
             color: white;
-            padding: 15px 30px;
+            padding: 16px 32px;
             text-decoration: none;
             border-radius: 30px;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: bold;
-            margin-top: 20px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            transition: background 0.2s;
+            margin-top: 25px;
+            box-shadow: 0 4px 10px rgba(36, 129, 204, 0.3);
+            transition: transform 0.2s;
+            display: inline-block;
+            /* Важно для iOS, чтобы кнопка нажималась четко */
+            -webkit-tap-highlight-color: transparent; 
         }
         .btn:active {
-            transform: scale(0.98);
+            transform: scale(0.96);
+            background-color: #1c6ca8;
         }
         p { color: #555; font-size: 16px; margin-bottom: 10px;}
+        .sub-text { font-size: 14px; color: #888; margin-top: 5px; }
     </style>
     <script>
         var username = "WWinnersClub"; 
-        
         var appUrl = "tg://resolve?domain=" + username;
+        
+        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
         window.onload = function() {
-            window.location.href = appUrl;
+
+            if (!isIOS) {
+                window.location.href = appUrl;
+            }
         };
     </script>
 </head>
 <body>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="80" alt="TG">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="90" alt="TG">
     <br><br>
     
     <p>Opening Telegram...</p>
-    <p style="font-size: 14px; color: #888;">If it doesn't open automatically:</p>
+    <p class="sub-text">Click the button below to join:</p>
     
-    <a href="#" id="linkBtn" class="btn">Join Channel</a>
+    <a href="#" id="linkBtn" class="btn" target="_blank">Join Channel</a>
 
     <script>
-        document.getElementById('linkBtn').href = "tg://resolve?domain=" + username;
+        var link = document.getElementById('linkBtn');
+        link.href = appUrl;
+        
+        link.onclick = function() {
+            setTimeout(function() {
+            }, 500);
+        };
     </script>
 </body>
 </html>
