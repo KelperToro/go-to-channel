@@ -19,16 +19,14 @@
         .btn {
             background-color: #2481cc;
             color: white;
-            padding: 16px 32px;
+            padding: 16px 40px;
             text-decoration: none;
             border-radius: 30px;
             font-size: 20px;
             font-weight: bold;
             margin-top: 25px;
             box-shadow: 0 4px 10px rgba(36, 129, 204, 0.3);
-            transition: transform 0.2s;
             display: inline-block;
-            /* Важно для iOS, чтобы кнопка нажималась четко */
             -webkit-tap-highlight-color: transparent; 
         }
         .btn:active {
@@ -40,13 +38,24 @@
     </style>
     <script>
         var username = "WWinnersClub"; 
-        var appUrl = "tg://resolve?domain=" + username;
         
+        var appUrl = "tg://resolve?domain=" + username;
+        var webUrl = "https://t.me/" + username;
+
         var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
         window.onload = function() {
+            var btn = document.getElementById('linkBtn');
 
-            if (!isIOS) {
+            if (isIOS) {
+                btn.href = webUrl;
+                btn.target = "_blank";
+                
+            } else {
+
+                btn.href = appUrl;
+                btn.target = "_self";
+
                 window.location.href = appUrl;
             }
         };
@@ -57,18 +66,9 @@
     <br><br>
     
     <p>Opening Telegram...</p>
-    <p class="sub-text">Click the button below to join:</p>
+    <p class="sub-text">Tap the button to open:</p>
     
-    <a href="#" id="linkBtn" class="btn" target="_blank">Join Channel</a>
+    <a href="#" id="linkBtn" class="btn">Join Channel</a>
 
-    <script>
-        var link = document.getElementById('linkBtn');
-        link.href = appUrl;
-        
-        link.onclick = function() {
-            setTimeout(function() {
-            }, 500);
-        };
-    </script>
 </body>
 </html>
