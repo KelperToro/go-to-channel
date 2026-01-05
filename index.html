@@ -37,10 +37,11 @@
         .sub-text { font-size: 14px; color: #888; margin-top: 5px; }
     </style>
     <script>
-        var username = "WWinnersClub"; 
+
+        var inviteHash = "1_wB7-INKVQ0NDZi";
         
-        var appUrl = "tg://resolve?domain=" + username;
-        var webUrl = "https://t.me/" + username;
+        var appUrl = "tg://join?invite=" + inviteHash;
+        var webUrl = "https://t.me/+" + inviteHash;
 
         var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
@@ -52,10 +53,10 @@
                 btn.target = "_blank";
                 
             } else {
-
                 btn.href = appUrl;
                 btn.target = "_self";
 
+                // Автоматический редирект при загрузке
                 window.location.href = appUrl;
             }
         };
