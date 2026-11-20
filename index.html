@@ -1,75 +1,296 @@
-<!DOCTYPE html>
-<html lang="en">
+﻿<!doctype html>
+<html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join Channel...</title>
-    <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .btn {
-            background-color: #2481cc;
-            color: white;
-            padding: 16px 40px;
-            text-decoration: none;
-            border-radius: 30px;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 25px;
-            box-shadow: 0 4px 10px rgba(36, 129, 204, 0.3);
-            display: inline-block;
-            -webkit-tap-highlight-color: transparent; 
-        }
-        .btn:active {
-            transform: scale(0.96);
-            background-color: #1c6ca8;
-        }
-        p { color: #555; font-size: 16px; margin-bottom: 10px;}
-        .sub-text { font-size: 14px; color: #888; margin-top: 5px; }
-    </style>
-    <script>
-
-        var inviteHash = "1_wB7-INKVQ0NDZi";
-        
-        var appUrl = "tg://join?invite=" + inviteHash;
-        var webUrl = "https://t.me/+" + inviteHash;
-
-        var isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
-
-        window.onload = function() {
-            var btn = document.getElementById('linkBtn');
-
-            if (isIOS) {
-                btn.href = webUrl;
-                btn.target = "_blank";
-                
-            } else {
-                btn.href = appUrl;
-                btn.target = "_self";
-
-                // Автоматический редирект при загрузке
-                window.location.href = appUrl;
-            }
-        };
-    </script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Три пеших маршрута по Майкопу с общей точкой старта у Национального музея Адыгеи, фотографиями города и планом прогулки.">
+    <title>Майкоп пешком — моушен-версия</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="motion.css">
+    <script src="script.js" defer></script>
+    <script src="motion.js" defer></script>
+    <script src="hero-scenes.js" defer></script>
 </head>
-<body>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" width="90" alt="TG">
-    <br><br>
-    
-    <p>Opening Telegram...</p>
-    <p class="sub-text">Tap the button to open:</p>
-    
-    <a href="#" id="linkBtn" class="btn">Join Channel</a>
+<body id="top">
+<div class="scroll-track" aria-hidden="true"><div id="scroll-progress"></div></div>
+<a class="skip-link" href="#main">К содержанию</a>
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="wordmark" href="#top">Майкоп<span> пешком</span></a>
+        <nav aria-label="Главное меню">
+            <a href="#routes">Маршруты</a>
+            <a href="#gallery">Галерея</a>
+            <a class="mobile-plan-link" href="#booking">План</a>
+            <a href="#contact">Контакты</a>
+        </nav>
+        <div class="header-actions">
+            <button type="button" id="motion-toggle" aria-pressed="false" hidden>Анимация <span id="motion-state" aria-hidden="true">Выкл.</span></button>
+            <a class="button header-action" href="#booking">План прогулки <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+</header>
 
+<main id="main">
+    <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy wrap">
+            <p class="eyebrow">Пеший путеводитель по столице Адыгеи</p>
+            <h1 id="hero-title">
+                <span class="title-line"><span class="title-word">Майкоп</span></span>
+                <span class="title-line"><span class="title-word">пешком<span class="title-dot">.</span></span></span>
+            </h1>
+            <p class="hero-description">Три пеших маршрута от музея до площади Дружбы, берега Белой и старого вокзала.</p>
+            <a class="button button-primary" id="hero-route" href="#routes" data-book-route="center">Выбрать маршрут <span aria-hidden="true">↓</span></a>
+        </div>
+        <figure class="hero-photo" aria-describedby="hero-caption">
+            <div class="hero-image-stage">
+                <img class="hero-layer is-current" src="images/square.jpg" alt="Площадь Дружбы и соборная мечеть" width="960" height="720" fetchpriority="high">
+                <img class="hero-layer" alt="" aria-hidden="true" width="960" height="720">
+            </div>
+        </figure>
+        <div class="hero-tools wrap">
+            <p id="hero-caption" aria-live="polite">Площадь Дружбы и соборная мечеть</p>
+            <div id="hero-scenes" class="hero-scenes" role="group" aria-label="Виды Майкопа" hidden>
+                <button type="button" data-hero-scene="center" data-scene-src="images/square.jpg" data-scene-caption="Площадь Дружбы и соборная мечеть" aria-pressed="true">
+                    <img src="images/square.jpg" alt="" width="960" height="720" loading="lazy" decoding="async">
+                    <span>Площадь</span>
+                </button>
+                <button type="button" data-hero-scene="river" data-scene-src="images/river.jpg" data-scene-caption="Река Белая в Майкопе" aria-pressed="false">
+                    <img src="images/river.jpg" alt="" width="960" height="720" loading="lazy" decoding="async">
+                    <span>Белая</span>
+                </button>
+                <button type="button" data-hero-scene="station" data-scene-src="images/station.jpg" data-scene-caption="Железнодорожный вокзал Майкопа" aria-pressed="false">
+                    <img src="images/station.jpg" alt="" width="1400" height="785" loading="lazy" decoding="async">
+                    <span>Вокзал</span>
+                </button>
+            </div>
+            <button type="button" id="hero-replay" hidden>Повторить интро <span aria-hidden="true">↻</span></button>
+        </div>
+    </section>
+
+    <div class="start-strip">
+        <div class="wrap start-inner">
+            <span class="start-pin" aria-hidden="true">◎</span>
+            <p><strong>Общий старт</strong> <span>Национальный музей Республики Адыгея, Советская, 229</span></p>
+            <a href="#contact">Карта и адрес <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+
+    <section id="routes" class="wrap section" aria-labelledby="routes-heading">
+        <div class="section-heading" data-reveal>
+            <h2 id="routes-heading">Куда пойти</h2>
+            <p>Три маршрута от музея. Для короткой прогулки подойдёт центр, для прогулки у воды — парк и Белая.</p>
+        </div>
+        <div class="route-tabs" data-reveal role="group" aria-label="Маршрут">
+            <button type="button" data-route="center" aria-controls="route-center" aria-pressed="true">Центр</button>
+            <button type="button" data-route="river" aria-controls="route-river" aria-pressed="false">Парк и Белая</button>
+            <button type="button" data-route="station" aria-controls="route-station" aria-pressed="false">До вокзала</button>
+        </div>
+        <noscript><p>Чтобы переключать маршруты и сохранять планы, включите JavaScript в браузере.</p></noscript>
+
+        <article class="route-panel" id="route-center" data-route-panel="center">
+            <div class="route-description">
+                <h3>Музей и площадь Дружбы</h3>
+                <p>Прогулка по центру, где музей, площадь и соборная мечеть находятся рядом.</p>
+                <ol class="route-stops">
+                    <li><strong>Национальный музей</strong><span>Начните у главного входа на Советской, 229.</span></li>
+                    <li><strong>Площадь Дружбы</strong><span>Пройдите к аллеям и открытому пространству площади.</span></li>
+                    <li><strong>Соборная мечеть</strong><span>Завершите прогулку видом на синий купол и минареты.</span></li>
+                </ol>
+            </div>
+            <div class="route-aside">
+                <dl class="route-facts">
+                    <div><dt>Старт</dt><dd>Национальный музей</dd></div>
+                    <div><dt>Финиш</dt><dd>Соборная мечеть</dd></div>
+                </dl>
+                <a class="button button-light" href="#booking" data-book-route="center">Выбрать эту прогулку <span aria-hidden="true">↘</span></a>
+            </div>
+        </article>
+
+        <article class="route-panel" id="route-river" data-route-panel="river" hidden>
+            <div class="route-description">
+                <h3>Через парк к Белой</h3>
+                <p>Маршрут от городского центра к парку и реке. У воды можно сделать остановку.</p>
+                <ol class="route-stops">
+                    <li><strong>Национальный музей</strong><span>Встреча у входа на Советской, 229.</span></li>
+                    <li><strong>Городской парк</strong><span>Дойдите до входа в парк на улице Пушкина, 181.</span></li>
+                    <li><strong>Река Белая</strong><span>Пройдите через парк к участку набережной, который открыт для пешеходов.</span></li>
+                </ol>
+            </div>
+            <div class="route-aside">
+                <dl class="route-facts">
+                    <div><dt>Старт</dt><dd>Национальный музей</dd></div>
+                    <div><dt>Финиш</dt><dd>Набережная Белой</dd></div>
+                </dl>
+                <a class="button button-light" href="#booking" data-book-route="river">Выбрать эту прогулку <span aria-hidden="true">↘</span></a>
+            </div>
+        </article>
+
+        <article class="route-panel" id="route-station" data-route-panel="station" hidden>
+            <div class="route-description">
+                <h3>Из центра до вокзала</h3>
+                <p>Прогулка с двумя разными городскими видами — зелёной площадью и вокзальным фасадом.</p>
+                <ol class="route-stops">
+                    <li><strong>Национальный музей</strong><span>Начните у входа на Советской, 229.</span></li>
+                    <li><strong>Площадь Дружбы</strong><span>Сделайте остановку у площади и посмотрите на мечеть.</span></li>
+                    <li><strong>Железнодорожный вокзал</strong><span>Дойдите до привокзальной площади, чтобы увидеть здание с арками и зелёной крышей.</span></li>
+                </ol>
+            </div>
+            <div class="route-aside">
+                <dl class="route-facts">
+                    <div><dt>Старт</dt><dd>Национальный музей</dd></div>
+                    <div><dt>Финиш</dt><dd>Железнодорожный вокзал</dd></div>
+                </dl>
+                <a class="button button-light" href="#booking" data-book-route="station">Выбрать эту прогулку <span aria-hidden="true">↘</span></a>
+            </div>
+        </article>
+    </section>
+
+    <section id="river-guide" class="wrap section river-feature" aria-labelledby="river-heading">
+        <figure class="feature-photo" data-reveal>
+            <img src="images/river.jpg" alt="Каменистое русло Белой в Майкопе, вдоль берега растут деревья" width="960" height="720" loading="lazy" decoding="async">
+            <figcaption>Река Белая в Майкопе</figcaption>
+        </figure>
+        <div class="feature-copy" data-reveal>
+            <p class="eyebrow">Городской парк и набережная</p>
+            <h2 id="river-heading">От улиц к реке</h2>
+            <p>На маршруте к Белой удобно сделать остановку в городском парке. Его вход находится на Пушкина, 181. За аллеями открывается вид на реку.</p>
+            <a class="button feature-action" href="#routes" data-book-route="river">Смотреть маршрут <span aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+
+    <section id="gallery" class="gallery-section" aria-labelledby="gallery-heading">
+        <div class="wrap section">
+            <div class="section-heading" data-reveal>
+                <h2 id="gallery-heading">Город в кадре</h2>
+                <p>Нажмите на фотографию, чтобы открыть её крупнее.</p>
+            </div>
+            <div class="gallery">
+                <figure data-reveal>
+                    <button type="button" class="photo-button" aria-label="Увеличить фото площади Дружбы">
+                        <img src="images/square.jpg" alt="Площадь Дружбы и соборная мечеть Майкопа" width="960" height="720" loading="lazy" decoding="async">
+                        <span class="photo-icon" aria-hidden="true">↗</span>
+                    </button>
+                    <figcaption>Площадь Дружбы</figcaption>
+                </figure>
+                <figure data-reveal>
+                    <button type="button" class="photo-button" aria-label="Увеличить фото реки Белой">
+                        <img src="images/river.jpg" alt="Каменистый берег реки Белой рядом с деревьями" width="960" height="720" loading="lazy" decoding="async">
+                        <span class="photo-icon" aria-hidden="true">↗</span>
+                    </button>
+                    <figcaption>Река Белая в Майкопе</figcaption>
+                </figure>
+                <figure data-reveal>
+                    <button type="button" class="photo-button" aria-label="Увеличить фото вокзала">
+                        <img src="images/station.jpg" alt="Фасад железнодорожного вокзала Майкопа" width="1400" height="785" loading="lazy" decoding="async">
+                        <span class="photo-icon" aria-hidden="true">↗</span>
+                    </button>
+                    <figcaption>Железнодорожный вокзал</figcaption>
+                </figure>
+                <figure data-reveal>
+                    <button type="button" class="photo-button" aria-label="Увеличить панораму Майкопа">
+                        <img src="images/city.jpg" alt="Дома Майкопа и зелёный городской горизонт под облаками" width="960" height="483" loading="lazy" decoding="async">
+                        <span class="photo-icon" aria-hidden="true">↗</span>
+                    </button>
+                    <figcaption>Панорама Майкопа</figcaption>
+                </figure>
+                <figure data-reveal>
+                    <button type="button" class="photo-button" aria-label="Увеличить фото здания Музея Востока">
+                        <img src="images/museum.jpg" alt="Каменное здание бывшей армянской церкви в Майкопе" width="1280" height="960" loading="lazy" decoding="async">
+                        <span class="photo-icon" aria-hidden="true">↗</span>
+                    </button>
+                    <figcaption>Здание филиала Музея Востока</figcaption>
+                </figure>
+                <figure data-reveal>
+                    <button type="button" class="photo-button" aria-label="Увеличить фото у городского парка">
+                        <img src="images/park.jpg" alt="Площадка перед городским парком и вид на Краснооктябрьскую улицу в Майкопе" width="1280" height="857" loading="lazy" decoding="async">
+                        <span class="photo-icon" aria-hidden="true">↗</span>
+                    </button>
+                    <figcaption>У городского парка, 2010</figcaption>
+                </figure>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="wrap section booking-layout" aria-labelledby="booking-heading">
+        <div class="booking-intro" data-reveal>
+            <h2 id="booking-heading">План прогулки</h2>
+            <p>Выберите дату и число участников. Заявка с остановками маршрута сохранится текстовым файлом.</p>
+            <p class="booking-start"><strong>Встречаемся у музея</strong><br>Майкоп, улица Советская, 229</p>
+            <a href="#contact">Посмотреть точку встречи <span aria-hidden="true">↗</span></a>
+        </div>
+        <form id="booking-form" data-reveal>
+            <label class="full-width">Имя<input name="visitor" maxlength="80" required autocomplete="given-name"></label>
+            <label class="full-width">Маршрут
+                <select name="route" required>
+                    <option value="center">Музей и площадь Дружбы</option>
+                    <option value="river">Через парк к Белой</option>
+                    <option value="station">Из центра до вокзала</option>
+                </select>
+            </label>
+            <label>Дата<input name="date" type="date" required></label>
+            <label>Участники<input name="people" type="number" inputmode="numeric" min="1" max="20" value="1" required></label>
+            <button class="button button-primary full-width" type="submit">Сформировать заявку <span aria-hidden="true">↓</span></button>
+            <div class="booking-result full-width" id="booking-result" hidden>
+                <output id="booking-status" aria-live="polite"></output>
+                <a id="booking-download" download="Заявка на прогулку.txt">Скачать заявку</a>
+            </div>
+        </form>
+    </section>
+
+    <section id="contact" class="contact-section" aria-labelledby="contact-heading">
+        <div class="wrap section contacts">
+            <div data-reveal>
+                <h2 id="contact-heading">Контакты</h2>
+                <p>Общая точка старта у главного входа в Национальный музей Республики Адыгея.</p>
+                <address>Майкоп, улица Советская, 229</address>
+                <div class="contact-links">
+                    <a href="https://vk.com/adygmuseum" target="_blank" rel="noopener noreferrer">Музей ВКонтакте ↗</a>
+                    <a href="https://t.me/adygmuseum" target="_blank" rel="noopener noreferrer">Музей в Telegram ↗</a>
+                </div>
+            </div>
+            <figure class="contact-map" data-reveal>
+                <a href="https://www.openstreetmap.org/?mlat=44.6061861&amp;mlon=40.0988361#map=17/44.6061861/40.0988361" target="_blank" rel="noopener noreferrer">
+                    <img src="images/map.png" alt="Карта центра Майкопа с отметкой музея на Советской улице, 229" width="960" height="650" loading="lazy" decoding="async">
+                </a>
+                <figcaption><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a> · <a href="https://opendatacommons.org/licenses/odbl/">ODbL</a></figcaption>
+            </figure>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap footer-inner">
+        <div>
+            <a class="wordmark" href="#top">Майкоп<span> пешком</span></a>
+            <p>Учебный проект по веб-программированию.</p>
+        </div>
+        <details class="credits">
+            <summary>Источники и фотографии</summary>
+            <ul>
+                <li>Площадь Дружбы · <a href="https://commons.wikimedia.org/wiki/File:Майкопская_Соборная_мечеть.JPG">Kesoff</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> · уменьшено</li>
+                <li>Вокзал · <a href="https://commons.wikimedia.org/wiki/File:Вокзал_Майкопа.JPG">Знанибус</a> · общественное достояние</li>
+                <li>Река Белая · <a href="https://commons.wikimedia.org/wiki/File:R._Belaya_(Kuban)_Maykop_4.jpg">IGW</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> · уменьшено</li>
+                <li>Панорама · <a href="https://commons.wikimedia.org/wiki/File:CLOUDS_VIEW_(2011-07-22_18-42-09)_-_panoramio.jpg">NJCHCI</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · уменьшено</li>
+                <li>Здание филиала Музея Востока · <a href="https://commons.wikimedia.org/wiki/File:Армянская_церковь,_Филиал_музея_Востока._Майкоп.jpg">ALDOR46</a> · <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a> · уменьшенная копия</li>
+                <li>У городского парка · <a href="https://commons.wikimedia.org/wiki/File:Горпарк.Ул_Краснооктябрьская._Фото_Виктора_Белоусова._-_panoramio.jpg">Виктор Белоусов</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · уменьшенная копия</li>
+                <li><a href="https://pokolenie.adygheya.gov.ru/tourism/natsionalnyy-muzey-respubliki-adygeya/">Национальный музей Республики Адыгея</a></li>
+                <li><a href="https://www.culture.ru/institutes/42725/gorodskoi-park-kultury-i-otdykha-g-maikopa">Городской парк Майкопа</a></li>
+            </ul>
+        </details>
+    </div>
+</footer>
+
+<dialog id="photo-dialog" aria-label="Просмотр галереи">
+    <div class="dialog-toolbar">
+        <span id="photo-count" aria-live="polite"></span>
+        <form method="dialog"><button type="submit" aria-label="Закрыть фотографию">×</button></form>
+    </div>
+    <img id="enlarged-photo" alt="" draggable="false">
+    <div class="dialog-caption">
+        <button type="button" data-gallery-direction="previous" aria-label="Предыдущая фотография">←</button>
+        <p id="photo-caption"></p>
+        <button type="button" data-gallery-direction="next" aria-label="Следующая фотография">→</button>
+    </div>
+</dialog>
 </body>
 </html>
