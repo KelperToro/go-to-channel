@@ -1,0 +1,204 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Пройдите от музея к площади Дружбы, затем выйдите к вокзалу и рассмотрите его фасад с привокзальной площади.">
+    <title>Из центра до вокзала — Майкоп пешком</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="motion.css">
+    <link rel="stylesheet" href="guide.css">
+    <script src="motion.js" defer></script>
+    <script src="route-guide.js" defer></script
+</head>
+<body class="guide-subpage" id="top">
+<div class="scroll-track" aria-hidden="true"><div id="scroll-progress"></div></div>
+<a class="skip-link" href="#main">К содержанию</a>
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="wordmark" href="index.html">Майкоп<span> пешком</span></a>
+        <nav aria-label="Главное меню">
+            <a href="index.html#routes" aria-current="true">Маршруты</a>
+            <a href="places.html">Места</a>
+            <a href="index.html#gallery">Галерея</a>
+            <a class="mobile-plan-link" href="index.html?route=station#booking">План</a>
+        </nav>
+        <div class="header-actions">
+            <button type="button" id="motion-toggle" aria-pressed="false" hidden>Анимация <span id="motion-state" aria-hidden="true">Выкл.</span></button>
+            <a class="button header-action" href="index.html?route=station#booking">План прогулки <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+</header>
+<main id="main" class="guide-theme-station" data-route-guide>
+    <section class="guide-hero" aria-labelledby="route-title">
+        <div class="wrap guide-hero-inner">
+            <div class="guide-hero-copy">
+                <a class="guide-back" href="index.html#routes"><span aria-hidden="true">←</span> Все маршруты</a>
+                <h1 id="route-title">Из центра до вокзала</h1>
+                <p class="guide-intro">Пройдите от музея к площади Дружбы, затем выйдите к вокзалу и рассмотрите его фасад с привокзальной площади.</p>
+                <dl class="guide-facts">
+                    <div><dt>Длина</dt><dd>≈ 3,1 км</dd></div>
+                    <div><dt>Без остановок</dt><dd>45–50 мин</dd></div>
+                    <div><dt>По пути</dt><dd>3 остановки</dd></div>
+                </dl>
+                <a class="button guide-start" href="#stop-1" data-guide-start>Начать прогулку <span aria-hidden="true">↓</span></a>
+            </div>
+            <figure class="guide-cover">
+                <img src="images/station.jpg" alt="Вокзал Майкопа с зелёной крышей и арочными окнами" width="1400" height="785" fetchpriority="high">
+                <figcaption>Железнодорожный вокзал Майкопа</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section class="wrap guide-workspace" aria-labelledby="guide-heading">
+        <h2 id="guide-heading">Схема и остановки</h2>
+        <div class="guide-workspace-columns">
+            <aside class="guide-map" id="guide-map" aria-label="Схема маршрута" data-guide-map>
+                <div class="guide-map-head">
+                    <h3>Схема маршрута</h3>
+                    <span>Без масштаба</span>
+                </div>
+                <div class="guide-map-plot">
+                    <span class="guide-map-north" aria-label="Север">С ↑</span>
+                    <div class="guide-map-lines" aria-hidden="true">
+                        <span class="guide-map-line" data-map-leg="0" style="--x:34.97%;--y:74.00%;--length:4.51%;--angle:-12.49deg"></span>
+                        <span class="guide-map-line" data-map-leg="0" style="--x:39.37%;--y:72.65%;--length:11.66%;--angle:-177.77deg"></span>
+                        <span class="guide-map-line" data-map-leg="0" style="--x:27.72%;--y:72.03%;--length:6.10%;--angle:-155.86deg"></span>
+                        <span class="guide-map-line" data-map-leg="0" style="--x:22.15%;--y:68.58%;--length:4.16%;--angle:-177.81deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:18.00%;--y:68.36%;--length:4.69%;--angle:-6.39deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:22.66%;--y:67.64%;--length:8.12%;--angle:-3.21deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:30.76%;--y:67.01%;--length:6.21%;--angle:-32.00deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:36.03%;--y:62.47%;--length:18.24%;--angle:2.14deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:54.26%;--y:63.41%;--length:4.17%;--angle:-64.04deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:56.08%;--y:58.24%;--length:11.66%;--angle:2.23deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:67.73%;--y:58.87%;--length:17.48%;--angle:-60.48deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:76.34%;--y:37.88%;--length:12.83%;--angle:-63.83deg"></span>
+                    </div>
+                    <button type="button" class="guide-pin" style="--x:34.97%;--y:74.00%" data-guide-target="stop-1" aria-controls="stop-1" aria-pressed="true" aria-label="1. Национальный музей Адыгеи">
+                        <span class="guide-pin-number">1</span>
+                        <span class="guide-pin-label">Музей</span>
+                    </button>
+                    <button type="button" class="guide-pin" style="--x:18.00%;--y:68.36%" data-guide-target="stop-2" aria-controls="stop-2" aria-pressed="false" aria-label="2. Площадь Дружбы">
+                        <span class="guide-pin-number">2</span>
+                        <span class="guide-pin-label">Площадь</span>
+                    </button>
+                    <button type="button" class="guide-pin" style="--x:82.00%;--y:22.00%" data-guide-target="stop-3" aria-controls="stop-3" aria-pressed="false" aria-label="3. Вокзал Майкоп">
+                        <span class="guide-pin-number">3</span>
+                        <span class="guide-pin-label">Вокзал</span>
+                    </button>
+                </div>
+                <p class="guide-map-caption"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a> <span>·</span> <a href="places.html#sources">Источники</a></p>
+            </aside>
+
+            <div class="guide-stage">
+                <article class="guide-stop" id="stop-1" data-guide-panel>
+                    <div class="guide-stop-title">
+                        <span class="guide-stop-number" aria-hidden="true">1</span>
+                        <div>
+                            <h3 data-guide-title tabindex="-1">Национальный музей Адыгеи</h3>
+                            <p>Улица Советская, 229</p>
+                        </div>
+                    </div>
+                    <figure class="guide-stop-photo guide-stop-map">
+                        <img src="images/map.png" alt="Карта с отметкой Национального музея Адыгеи" width="960" height="650" decoding="async">
+                        <figcaption>Точка встречи у музея · © OpenStreetMap contributors</figcaption>
+                    </figure>
+                    <div class="guide-stop-copy">
+                        <p>Начните у музея на Советской улице.</p>
+                        <p>У главного входа удобно встретиться перед прогулкой. В собрании музея есть археологические находки, адыгские украшения и предметы быта. Если решите зайти внутрь, заложите время отдельно.</p>
+                        <div class="guide-stop-links">
+                            <a href="places.html#museum">Место в путеводителе <span aria-hidden="true">↗</span></a>
+                            <a class="guide-map-return" href="#guide-map"><span aria-hidden="true">↑</span> К схеме</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="guide-stop" id="stop-2" data-guide-panel>
+                    <div class="guide-stop-title">
+                        <span class="guide-stop-number" aria-hidden="true">2</span>
+                        <div>
+                            <h3 data-guide-title tabindex="-1">Площадь Дружбы</h3>
+                            <p>Улица Пионерская, у улицы Лермонтова</p>
+                        </div>
+                    </div>
+                    <figure class="guide-stop-photo">
+                        <img src="images/square.jpg" alt="Сквер рядом с площадью Дружбы и соборная мечеть Майкопа" width="960" height="720" decoding="async">
+                        <figcaption>Сквер и соборная мечеть у площади Дружбы</figcaption>
+                    </figure>
+                    <div class="guide-stop-copy">
+                        <p>После остановки у монумента продолжайте прогулку в сторону Привокзальной площади.</p>
+                        <p>Найдите монумент «Навеки с Россией» и оглядитесь: у сухого фонтана вокруг него выложен гранитный орнамент. Дальше можно пройти в сквер к мечети или продолжить путь к вокзалу.</p>
+                        <div class="guide-stop-links">
+                            <a href="places.html#square">Место в путеводителе <span aria-hidden="true">↗</span></a>
+                            <a class="guide-map-return" href="#guide-map"><span aria-hidden="true">↑</span> К схеме</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="guide-stop" id="stop-3" data-guide-panel>
+                    <div class="guide-stop-title">
+                        <span class="guide-stop-number" aria-hidden="true">3</span>
+                        <div>
+                            <h3 data-guide-title tabindex="-1">Вокзал Майкоп</h3>
+                            <p>Привокзальная площадь, 1</p>
+                        </div>
+                    </div>
+                    <figure class="guide-stop-photo">
+                        <img src="images/station.jpg" alt="Вокзал Майкопа с зелёной крышей и арочными окнами" width="1400" height="785" decoding="async">
+                        <figcaption>Железнодорожный вокзал Майкопа</figcaption>
+                    </figure>
+                    <div class="guide-stop-copy">
+                        <p>Финиш перед главным фасадом, со стороны площади.</p>
+                        <p>Прогулка заканчивается перед зданием вокзала. С привокзальной площади удобно рассмотреть арочные окна и фасад по всей длине.</p>
+                        <div class="guide-stop-links">
+                            <a href="places.html#station">Место в путеводителе <span aria-hidden="true">↗</span></a>
+                            <a class="guide-map-return" href="#guide-map"><span aria-hidden="true">↑</span> К схеме</a>
+                        </div>
+                    </div>
+                </article>
+                <div class="guide-controls" data-guide-controls hidden>
+                    <button type="button" data-guide-prev><span aria-hidden="true">←</span> Назад</button>
+                    <span role="status" data-guide-progress></span>
+                    <button type="button" data-guide-next>Дальше <span aria-hidden="true">→</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="guide-plan">
+            <div>
+                <h2>План прогулки</h2>
+                <p>Укажите дату и число участников, чтобы сохранить маршрут с остановками в текстовом файле.</p>
+            </div>
+            <a class="button button-primary" href="index.html?route=station#booking">Составить план <span aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+
+    <section class="wrap guide-more" aria-labelledby="more-heading">
+        <h2 id="more-heading">Другие прогулки</h2>
+        <div class="guide-choices guide-choices-two">
+            <a class="guide-choice guide-choice-center" href="center.html">
+                <span class="guide-choice-image"><img src="images/square.jpg" alt="" width="960" height="720" loading="lazy" decoding="async"></span>
+                <span class="guide-choice-copy">
+                    <span class="guide-choice-facts">≈ 0,7 км <span aria-hidden="true">·</span> 10–15 мин</span>
+                    <strong>Музей и площадь Дружбы</strong>
+                    <span class="guide-choice-link">Открыть маршрут <span aria-hidden="true">↗</span></span>
+                </span>
+            </a>
+            <a class="guide-choice guide-choice-river" href="river.html">
+                <span class="guide-choice-image"><img src="images/river.jpg" alt="" width="960" height="720" loading="lazy" decoding="async"></span>
+                <span class="guide-choice-copy">
+                    <span class="guide-choice-facts">≈ 1,4 км <span aria-hidden="true">·</span> 20–25 мин</span>
+                    <strong>Через парк к Белой</strong>
+                    <span class="guide-choice-link">Открыть маршрут <span aria-hidden="true">↗</span></span>
+                </span>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap footer-inner guide-footer">
+        <a class="wordmark" href="index.html">Майкоп<span> пешком</span></a>
+        <a href="places.html#sources">Источники и фотографии</a>
+        <a href="#top">Наверх ↑</a>
+    </div>
+</footer>
+</body>
+</html>

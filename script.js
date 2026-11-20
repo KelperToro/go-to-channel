@@ -1,12 +1,135 @@
 const routeButtons = document.querySelectorAll('[data-route]');
-const routePanels = document.querySelectorAll('[data-route-panel]');
+const routePanels = Array.from(document.querySelectorAll('[data-route-panel]'));
 const booking = document.querySelector('#booking-form');
 const bookingRoute = booking.elements.route;
 const visitor = booking.elements.visitor;
 const bookingStatus = document.querySelector('#booking-status');
 const bookingResult = document.querySelector('#booking-result');
 const bookingDownload = document.querySelector('#booking-download');
+const previewTitle = document.querySelector('#booking-route-title');
+const previewFacts = document.querySelector('#booking-preview-facts');
+const previewSchedule = document.querySelector('#booking-preview-schedule');
+const previewStops = document.querySelector('#booking-stops');
+const profileForm = document.querySelector('#profile-form');
+const profileName = document.querySelector('#profile-name');
+const profileActive = document.querySelector('#profile-active');
+const profileDisplay = document.querySelector('#profile-display-name');
+const profileSignout = document.querySelector('#profile-signout');
+const profileStatus = document.querySelector('#profile-status');
+const profileEmpty = document.querySelector('#profile-empty');
+const savedPlans = document.querySelector('#profile-plans');
+const profileStorageKey = 'maykop-walks-profile-v1';
+const routes = new Map();
+
+for (const option of bookingRoute.options) {
+    const panel = routePanels.find((item) => item.dataset.routePanel === option.value);
+    const stops = Array.from(panel.querySelectorAll('ol li'), (stop) => ({
+        name: stop.querySelector('strong')?.textContent.trim() || stop.textContent.trim(),
+        note: stop.querySelector('span')?.textContent.trim() || ''
+    }));
+
+    routes.set(option.value, {
+        title: option.textContent.trim(),
+        distance: option.dataset.distance,
+        duration: option.dataset.duration,
+        stops
+    });
+}
+
 let downloadUrl;
+let previewRoute;
+let storageUnavailable = false;
+let profileState = readProfileState();
+
+function readProfileState() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(profileStorageKey));
+        const entries = Array.isArray(saved?.profiles) ? saved.profiles : [];
+        const profiles = entries.filter((profile) => (
+            typeof profile?.name === 'string' && profile.name.trim() && profile.name.length <= 32
+        )).map((profile) => ({
+            name: profile.name,
+            plans: Array.isArray(profile.plans) ? profile.plans.filter(isSavedPlan) : []
+        }));
+
+        return { active: saved?.active || '', profiles };
+    } catch (error) {
+        storageUnavailable = !(error instanceof SyntaxError);
+        return { active: '', profiles: [] };
+    }
+}
+
+function isSavedPlan(plan) {
+    return routes.has(plan?.route)
+        && typeof plan.visitor === 'string' && plan.visitor.trim().length > 0 && plan.visitor.length <= 80
+        && typeof plan.date === 'string' && /^\d{4,}-\d{2}-\d{2}$/.test(plan.date)
+        && typeof plan.time === 'string' && (!plan.time || /^(?:[01]\d|2[0-3]):[0-5]\d$/.test(plan.time))
+        && Number.isInteger(plan.people) && plan.people >= 1 && plan.people <= 20;
+}
+
+function activeProfile() {
+    return profileState.profiles.find((profile) => profile.name === profileState.active);
+}
+
+function writeProfileState() {
+    if (storageUnavailable) return;
+    try {
+        localStorage.setItem(profileStorageKey, JSON.stringify(profileState));
+    } catch {
+        storageUnavailable = true;
+    }
+}
+
+function showProfileStatus(message = '') {
+    const availability = storageUnavailable
+        ? 'Хранилище браузера недоступно. Планы видны до закрытия страницы.'
+        : '';
+    profileStatus.textContent = [message, availability].filter(Boolean).join(' ');
+}
+
+function formatDate(value) {
+    return value.split('-').reverse().join('.');
+}
+
+function formatPeople(people) {
+    if (!Number.isInteger(people) || people < 1 || people > 20) return 'Укажите число участников';
+    if (people === 1) return '1 участник';
+    return people + (people < 5 ? ' участника' : ' участников');
+}
+
+function formatSchedule(plan) {
+    return [
+        plan.date ? formatDate(plan.date) : 'Дата пока не выбрана',
+        plan.time,
+        formatPeople(plan.people)
+    ].filter(Boolean).join(' · ');
+}
+
+function currentPlan() {
+    return {
+        route: bookingRoute.value,
+        visitor: visitor.value.trim(),
+        date: booking.elements.date.value,
+        time: booking.elements.time.value,
+        people: booking.elements.people.valueAsNumber
+    };
+}
+
+function renderBookingPreview() {
+    const plan = currentPlan();
+    previewSchedule.textContent = formatSchedule(plan);
+    if (plan.route === previewRoute) return;
+
+    const route = routes.get(plan.route);
+    previewRoute = plan.route;
+    previewTitle.textContent = route.title;
+    previewFacts.textContent = '≈ ' + route.distance + ' · ' + route.duration + ' пешком';
+    previewStops.replaceChildren(...route.stops.map((stop) => {
+        const item = document.createElement('li');
+        item.textContent = stop.name;
+        return item;
+    }));
+}
 
 function clearBooking() {
     if (downloadUrl) {
@@ -19,86 +142,206 @@ function clearBooking() {
 }
 
 function selectRoute(route) {
+    if (!routes.has(route)) route = bookingRoute.options[0].value;
+
     for (const button of routeButtons) {
         button.setAttribute('aria-pressed', String(button.dataset.route === route));
     }
     for (const panel of routePanels) {
         panel.hidden = panel.dataset.routePanel !== route;
     }
-    if (bookingRoute.value !== route) {
-        bookingRoute.value = route;
+
+    bookingRoute.value = route;
+    if (route !== previewRoute) clearBooking();
+    renderBookingPreview();
+}
+
+function planFileUrl(plan) {
+    const route = routes.get(plan.route);
+    const lines = [
+        'Маршрут по Майкопу',
+        '',
+        route.title,
+        'Имя — ' + plan.visitor,
+        'Дата — ' + formatDate(plan.date),
+        'Участники — ' + plan.people
+    ];
+    if (plan.time) lines.push('Время старта — ' + plan.time);
+    lines.push(
+        'Расстояние — около ' + route.distance,
+        'Время в пути — ' + route.duration + ' пешком',
+        'Точка старта — Национальный музей Республики Адыгея, ул. Советская, 229',
+        '',
+        'Остановки'
+    );
+    for (const [index, stop] of route.stops.entries()) {
+        const description = stop.note ? stop.name + ' — ' + stop.note : stop.name;
+        lines.push((index + 1) + '. ' + description);
+    }
+
+    const file = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
+    return URL.createObjectURL(file);
+}
+
+function savedPlanItem(plan, index, profile) {
+    const route = routes.get(plan.route);
+    const item = document.createElement('li');
+    item.className = 'booking-saved-plan';
+
+    const description = document.createElement('div');
+    const title = document.createElement('strong');
+    const schedule = document.createElement('p');
+    title.textContent = route.title;
+    schedule.textContent = formatSchedule(plan);
+    description.append(title, schedule);
+
+    const actions = document.createElement('div');
+    actions.className = 'booking-saved-actions';
+    const download = document.createElement('a');
+    download.href = planFileUrl(plan);
+    download.download = bookingDownload.download;
+    download.textContent = 'Скачать';
+    download.setAttribute('aria-label', 'Скачать план прогулки «' + route.title + '» на ' + formatDate(plan.date));
+
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.textContent = 'Удалить';
+    remove.setAttribute('aria-label', 'Удалить план прогулки «' + route.title + '» на ' + formatDate(plan.date));
+    remove.addEventListener('click', () => {
+        profile.plans.splice(index, 1);
+        writeProfileState();
+        renderProfile();
+        const nextAction = savedPlans.children[index]?.querySelector('button')
+            || savedPlans.lastElementChild?.querySelector('button')
+            || profileSignout;
+        nextAction.focus();
+        showProfileStatus('План удалён.');
+    });
+
+    actions.append(download, remove);
+    item.append(description, actions);
+    return item;
+}
+
+function renderProfile() {
+    const profile = activeProfile();
+    profileForm.hidden = Boolean(profile);
+    profileActive.hidden = !profile;
+    profileDisplay.textContent = profile?.name || '';
+    profileEmpty.hidden = Boolean(profile?.plans.length);
+
+    for (const download of savedPlans.querySelectorAll('a[download]')) {
+        URL.revokeObjectURL(download.href);
+    }
+    savedPlans.replaceChildren();
+    if (profile) {
+        for (const [index, plan] of profile.plans.entries()) {
+            savedPlans.append(savedPlanItem(plan, index, profile));
+        }
+    }
+    showProfileStatus();
+}
+
+function fillVisitor(previousName, nextName) {
+    if (!visitor.value.trim() || visitor.value === previousName) {
+        visitor.value = nextName;
+        visitor.setCustomValidity('');
         clearBooking();
     }
 }
 
 for (const button of routeButtons) {
-    button.addEventListener('click', function () {
-        selectRoute(button.dataset.route);
-    });
+    button.addEventListener('click', () => selectRoute(button.dataset.route));
 }
 
 for (const link of document.querySelectorAll('[data-book-route]')) {
-    link.addEventListener('click', function () {
-        selectRoute(link.dataset.bookRoute);
-    });
+    link.addEventListener('click', () => selectRoute(link.dataset.bookRoute));
 }
 
-selectRoute(bookingRoute.value);
-
-booking.addEventListener('input', function (event) {
-    if (event.target === visitor) {
-        visitor.setCustomValidity('');
-    }
+booking.addEventListener('input', (event) => {
+    if (event.target === bookingRoute) return;
+    if (event.target === visitor) visitor.setCustomValidity('');
     clearBooking();
+    renderBookingPreview();
 });
 
-bookingRoute.addEventListener('change', function () {
-    selectRoute(bookingRoute.value);
-    clearBooking();
-});
+bookingRoute.addEventListener('change', () => selectRoute(bookingRoute.value));
 
-booking.addEventListener('submit', function (event) {
+booking.addEventListener('submit', (event) => {
     event.preventDefault();
+    const plan = currentPlan();
+    visitor.setCustomValidity(plan.visitor ? '' : 'Введите имя.');
+    if (!booking.reportValidity()) return;
+
     clearBooking();
-
-    const name = visitor.value.trim();
-    visitor.setCustomValidity(name ? '' : 'Введите имя.');
-    if (!booking.reportValidity()) {
-        return;
-    }
-
-    const panel = Array.from(routePanels).find(function (panel) {
-        return panel.dataset.routePanel === bookingRoute.value;
-    });
-    const title = panel.querySelector('h2, h3, h4').textContent.trim();
-    const [year, month, day] = booking.elements.date.value.split('-');
-    const date = [day, month, year].join('.');
-    const people = booking.elements.people.value;
-    const lines = [
-        'Маршрут по Майкопу',
-        '',
-        title,
-        'Имя — ' + name,
-        'Дата — ' + date,
-        'Участники — ' + people,
-        ''
-    ];
-    const stops = panel.querySelectorAll('ol li');
-    for (const [index, stop] of stops.entries()) {
-        const label = stop.querySelector('strong');
-        const instruction = stop.querySelector('span');
-        const stopText = label && instruction
-            ? label.textContent.trim() + ' — ' + instruction.textContent.trim()
-            : stop.textContent.trim();
-        lines.push((index + 1) + '. ' + stopText);
-    }
-
-    const file = new Blob(['\uFEFF' + lines.join('\r\n')], { type: 'text/plain;charset=utf-8' });
-    downloadUrl = URL.createObjectURL(file);
+    downloadUrl = planFileUrl(plan);
     bookingDownload.href = downloadUrl;
     bookingResult.hidden = false;
-    bookingStatus.textContent = 'План прогулки готов. ' + date + ' · участников: ' + people;
+    const schedule = ' ' + formatSchedule(plan) + '.';
+    bookingStatus.textContent = 'План прогулки готов.' + schedule;
+
+    const profile = activeProfile();
+    if (!profile) return;
+
+    const alreadySaved = profile.plans.some((saved) => (
+        saved.route === plan.route && saved.visitor === plan.visitor
+        && saved.date === plan.date && saved.time === plan.time && saved.people === plan.people
+    ));
+    if (!alreadySaved) {
+        profile.plans.unshift(plan);
+        writeProfileState();
+        renderProfile();
+    }
+    bookingStatus.textContent = storageUnavailable
+        ? 'План прогулки готов и доступен в профиле до закрытия страницы.' + schedule
+        : 'План прогулки готов и сохранён в профиле.' + schedule;
 });
+
+profileName.addEventListener('input', () => profileName.setCustomValidity(''));
+
+profileForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const name = profileName.value.trim();
+    profileName.setCustomValidity(name ? '' : 'Введите имя профиля.');
+    if (!profileForm.reportValidity()) return;
+
+    const normalizedName = name.toLocaleLowerCase('ru-RU');
+    let profile = profileState.profiles.find((entry) => entry.name.toLocaleLowerCase('ru-RU') === normalizedName);
+    if (!profile) {
+        profile = { name, plans: [] };
+        profileState.profiles.push(profile);
+    }
+
+    profileState.active = profile.name;
+    writeProfileState();
+    fillVisitor('', profile.name);
+    profileForm.reset();
+    renderProfile();
+    profileSignout.focus();
+});
+
+profileSignout.addEventListener('click', () => {
+    const previousName = activeProfile()?.name;
+    profileState.active = '';
+    writeProfileState();
+    fillVisitor(previousName, '');
+    renderProfile();
+    profileName.focus();
+});
+
+window.addEventListener('storage', (event) => {
+    if (storageUnavailable || (event.key !== profileStorageKey && event.key !== null)) return;
+
+    const previousName = activeProfile()?.name;
+    profileState = readProfileState();
+    fillVisitor(previousName, activeProfile()?.name || '');
+    renderProfile();
+});
+
+const requestedRoute = new URLSearchParams(location.search).get('route');
+selectRoute(routes.has(requestedRoute) ? requestedRoute : bookingRoute.value);
+fillVisitor('', activeProfile()?.name || '');
+renderProfile();
 
 const photoDialog = document.querySelector('#photo-dialog');
 const photoButtons = Array.from(document.querySelectorAll('.photo-button'));

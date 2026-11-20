@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Музей, площадь Дружбы, мечеть, городской парк, набережная Белой и вокзал Майкопа.">
+    <title>Места на маршрутах — Майкоп пешком</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="motion.css">
+    <link rel="stylesheet" href="guide.css">
+    <script src="motion.js" defer></script>
+</head>
+<body class="guide-subpage" id="top">
+<div class="scroll-track" aria-hidden="true"><div id="scroll-progress"></div></div>
+<a class="skip-link" href="#main">К содержанию</a>
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="wordmark" href="index.html">Майкоп<span> пешком</span></a>
+        <nav aria-label="Главное меню">
+            <a href="index.html#routes">Маршруты</a>
+            <a href="places.html" aria-current="page">Места</a>
+            <a href="index.html#gallery">Галерея</a>
+            <a class="mobile-plan-link" href="index.html#booking">План</a>
+        </nav>
+        <div class="header-actions">
+            <button type="button" id="motion-toggle" aria-pressed="false" hidden>Анимация <span id="motion-state" aria-hidden="true">Выкл.</span></button>
+            <a class="button header-action" href="index.html#booking">План прогулки <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+</header>
+<main id="main">
+    <div class="places-intro">
+        <div class="wrap">
+            <a class="guide-back" href="index.html#routes"><span aria-hidden="true">←</span> Все маршруты</a>
+            <h1>Места на маршрутах</h1>
+            <p>Шесть остановок в Майкопе. Выберите место, чтобы посмотреть, какие прогулки через него проходят.</p>
+            <nav aria-label="Места" class="places-jump">
+                <a href="#museum">Музей</a>
+                <a href="#square">Площадь</a>
+                <a href="#mosque">Мечеть</a>
+                <a href="#park">Горпарк</a>
+                <a href="#belaya">Белая</a>
+                <a href="#station">Вокзал</a>
+            </nav>
+        </div>
+    </div>
+    <div class="wrap places-grid">
+        <article class="place-card" id="museum" aria-labelledby="place-museum">
+            <figure class="place-picture guide-stop-map">
+                <img src="images/map.png" alt="Карта с отметкой Национального музея Адыгеи" width="960" height="650" loading="lazy" decoding="async">
+                <figcaption>Точка встречи у музея · © OpenStreetMap contributors</figcaption>
+            </figure>
+            <div class="place-copy">
+                <h2 id="place-museum">Национальный музей Адыгеи</h2>
+                <p class="place-address">Улица Советская, 229</p>
+                <p>У главного входа удобно встретиться перед прогулкой. В собрании музея есть археологические находки, адыгские украшения и предметы быта. Если решите зайти внутрь, заложите время отдельно.</p>
+                <div class="place-routes">
+                    <h3>Маршруты через это место</h3>
+                    <div>
+                        <a href="center.html#stop-1">Центр <span aria-hidden="true">↗</span></a>
+                        <a href="river.html#stop-1">Парк и Белая <span aria-hidden="true">↗</span></a>
+                        <a href="station.html#stop-1">До вокзала <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+                <a class="place-source" href="https://pokolenie.adygheya.gov.ru/tourism/natsionalnyy-muzey-respubliki-adygeya/">Источник <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+        <article class="place-card" id="square" aria-labelledby="place-square">
+            <figure class="place-picture">
+                <img src="images/square.jpg" alt="Сквер рядом с площадью Дружбы и соборная мечеть Майкопа" width="960" height="720" loading="lazy" decoding="async">
+                <figcaption>Сквер и соборная мечеть у площади Дружбы</figcaption>
+            </figure>
+            <div class="place-copy">
+                <h2 id="place-square">Площадь Дружбы</h2>
+                <p class="place-address">Улица Пионерская, у улицы Лермонтова</p>
+                <p>Найдите монумент «Навеки с Россией» и оглядитесь: у сухого фонтана вокруг него выложен гранитный орнамент. Дальше можно пройти в сквер к мечети или продолжить путь к вокзалу.</p>
+                <div class="place-routes">
+                    <h3>Маршруты через это место</h3>
+                    <div>
+                        <a href="center.html#stop-2">Центр <span aria-hidden="true">↗</span></a>
+                        <a href="station.html#stop-2">До вокзала <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+                <a class="place-source" href="https://maikop.ru/news/V-stolitse-Adygei-zavershaetsya-rekonstruktsiya-ploshchadi-Druzhby-/">Источник <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+        <article class="place-card" id="mosque" aria-labelledby="place-mosque">
+            <figure class="place-picture">
+                <img src="images/square.jpg" alt="Соборная мечеть Майкопа с синим куполом и минаретами" width="960" height="720" loading="lazy" decoding="async">
+                <figcaption>Соборная мечеть Майкопа</figcaption>
+            </figure>
+            <div class="place-copy">
+                <h2 id="place-mosque">Соборная мечеть</h2>
+                <p class="place-address">Улица Советская, 200</p>
+                <p>Остановитесь в сквере и посмотрите на синий купол и четыре минарета. С открытой дорожки видно, как симметрично они обрамляют здание.</p>
+                <div class="place-routes">
+                    <h3>Маршруты через это место</h3>
+                    <div>
+                        <a href="center.html#stop-3">Центр <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+                <a class="place-source" href="https://pokolenie.adygheya.gov.ru/tourism/sobornaya-mechet-goroda-maykopa/">Источник <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+        <article class="place-card" id="park" aria-labelledby="place-park">
+            <figure class="place-picture">
+                <img src="images/park.jpg" alt="Площадка перед городским парком и Краснооктябрьская улица в Майкопе" width="1280" height="857" loading="lazy" decoding="async">
+                <figcaption>У городского парка, 2010 год</figcaption>
+            </figure>
+            <div class="place-copy">
+                <h2 id="place-park">Городской парк</h2>
+                <p class="place-address">Улица Пушкина, 181</p>
+                <p>Вход со стороны Пушкина легко найти по вывеске «Горпарк Майкоп» с яблоком. Отсюда можно пройти по аллеям в ту часть парка, которая обращена к реке.</p>
+                <div class="place-routes">
+                    <h3>Маршруты через это место</h3>
+                    <div>
+                        <a href="river.html#stop-2">Парк и Белая <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+                <a class="place-source" href="https://www.culture.ru/institutes/42725/gorodskoi-park-kultury-i-otdykha-g-maikopa">Источник <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+        <article class="place-card" id="belaya" aria-labelledby="place-belaya">
+            <figure class="place-picture">
+                <img src="images/river.jpg" alt="Каменистое русло Белой и деревья на берегу в Майкопе" width="960" height="720" loading="lazy" decoding="async">
+                <figcaption>Река Белая в Майкопе</figcaption>
+            </figure>
+            <div class="place-copy">
+                <h2 id="place-belaya">Набережная Белой</h2>
+                <p class="place-address">Набережная у «Золотого яблока»</p>
+                <p>На прогулочной набережной между городским бассейном и плотиной ищите скульптуру «Золотое яблоко». Если часть набережной закрыта, можно завершить прогулку у открытого участка парка.</p>
+                <div class="place-routes">
+                    <h3>Маршруты через это место</h3>
+                    <div>
+                        <a href="river.html#stop-3">Парк и Белая <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+                <a class="place-source" href="https://www.runcity.org/ru/events/maykop2025/routes/lobachevsky/#c483">Источник <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+        <article class="place-card" id="station" aria-labelledby="place-station">
+            <figure class="place-picture">
+                <img src="images/station.jpg" alt="Вокзал Майкопа с зелёной крышей и арочными окнами" width="1400" height="785" loading="lazy" decoding="async">
+                <figcaption>Железнодорожный вокзал Майкопа</figcaption>
+            </figure>
+            <div class="place-copy">
+                <h2 id="place-station">Вокзал Майкоп</h2>
+                <p class="place-address">Привокзальная площадь, 1</p>
+                <p>Прогулка заканчивается перед зданием вокзала. С привокзальной площади удобно рассмотреть арочные окна и фасад по всей длине.</p>
+                <div class="place-routes">
+                    <h3>Маршруты через это место</h3>
+                    <div>
+                        <a href="station.html#stop-3">До вокзала <span aria-hidden="true">↗</span></a>
+                    </div>
+                </div>
+                <a class="place-source" href="https://maykop.dzvr.ru/">Источник <span aria-hidden="true">↗</span></a>
+            </div>
+        </article>
+    </div>
+    <section class="wrap guide-sources" id="sources" aria-labelledby="sources-heading">
+        <h2 id="sources-heading">Источники и фотографии</h2>
+        <p>Схемы показывают порядок остановок. Длины округлены по <a href="https://routing.openstreetmap.de/about.html">пешеходной маршрутизации FOSSGIS</a> на данных <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>. Время рассчитано для темпа около 4 км/ч без остановок.</p>
+        <ul>
+            <li>Карта у музея · <a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors</a> · <a href="https://opendatacommons.org/licenses/odbl/">ODbL</a></li>
+            <li>Сквер у мечети · <a href="https://commons.wikimedia.org/wiki/File:Майкопская_Соборная_мечеть.JPG">Kesoff</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> · уменьшено</li>
+            <li>Парк · <a href="https://commons.wikimedia.org/wiki/File:Горпарк.Ул_Краснооктябрьская._Фото_Виктора_Белоусова._-_panoramio.jpg">Виктор Белоусов</a> · <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a> · уменьшено</li>
+            <li>Белая · <a href="https://commons.wikimedia.org/wiki/File:R._Belaya_(Kuban)_Maykop_4.jpg">IGW</a> · <a href="https://creativecommons.org/licenses/by-sa/3.0/">CC BY-SA 3.0</a> · уменьшено</li>
+            <li>Вокзал · <a href="https://commons.wikimedia.org/wiki/File:Вокзал_Майкопа.JPG">Знанибус</a> · общественное достояние</li>
+        </ul>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap footer-inner guide-footer">
+        <a class="wordmark" href="index.html">Майкоп<span> пешком</span></a>
+        <a href="places.html#sources">Источники и фотографии</a>
+        <a href="#top">Наверх ↑</a>
+    </div>
+</footer>
+</body>
+</html>

@@ -54,7 +54,7 @@
         scene.setAttribute('aria-pressed', 'true');
         currentScene = scene;
         caption.textContent = scene.dataset.sceneCaption;
-        route.dataset.bookRoute = scene.dataset.heroScene;
+        route.setAttribute('href', scene.dataset.heroScene + '.html');
 
         if (root.dataset.motion === 'on') {
             previousLayer.classList.add('is-leaving');

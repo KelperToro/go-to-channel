@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Маршрут из центра в горпарк и к реке. Оставьте время, чтобы пройти по аллеям и задержаться у Белой.">
+    <title>Через парк к Белой — Майкоп пешком</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="motion.css">
+    <link rel="stylesheet" href="guide.css">
+    <script src="motion.js" defer></script>
+    <script src="route-guide.js" defer></script
+</head>
+<body class="guide-subpage" id="top">
+<div class="scroll-track" aria-hidden="true"><div id="scroll-progress"></div></div>
+<a class="skip-link" href="#main">К содержанию</a>
+<header class="site-header">
+    <div class="wrap header-inner">
+        <a class="wordmark" href="index.html">Майкоп<span> пешком</span></a>
+        <nav aria-label="Главное меню">
+            <a href="index.html#routes" aria-current="true">Маршруты</a>
+            <a href="places.html">Места</a>
+            <a href="index.html#gallery">Галерея</a>
+            <a class="mobile-plan-link" href="index.html?route=river#booking">План</a>
+        </nav>
+        <div class="header-actions">
+            <button type="button" id="motion-toggle" aria-pressed="false" hidden>Анимация <span id="motion-state" aria-hidden="true">Выкл.</span></button>
+            <a class="button header-action" href="index.html?route=river#booking">План прогулки <span aria-hidden="true">↗</span></a>
+        </div>
+    </div>
+</header>
+<main id="main" class="guide-theme-river" data-route-guide>
+    <section class="guide-hero" aria-labelledby="route-title">
+        <div class="wrap guide-hero-inner">
+            <div class="guide-hero-copy">
+                <a class="guide-back" href="index.html#routes"><span aria-hidden="true">←</span> Все маршруты</a>
+                <h1 id="route-title">Через парк к Белой</h1>
+                <p class="guide-intro">Маршрут из центра в горпарк и к реке. Оставьте время, чтобы пройти по аллеям и задержаться у Белой.</p>
+                <dl class="guide-facts">
+                    <div><dt>Длина</dt><dd>≈ 1,4 км</dd></div>
+                    <div><dt>Без остановок</dt><dd>20–25 мин</dd></div>
+                    <div><dt>По пути</dt><dd>3 остановки</dd></div>
+                </dl>
+                <a class="button guide-start" href="#stop-1" data-guide-start>Начать прогулку <span aria-hidden="true">↓</span></a>
+            </div>
+            <figure class="guide-cover">
+                <img src="images/river.jpg" alt="Каменистое русло Белой и деревья на берегу в Майкопе" width="960" height="720" fetchpriority="high">
+                <figcaption>Река Белая в Майкопе</figcaption>
+            </figure>
+        </div>
+    </section>
+
+    <section class="wrap guide-workspace" aria-labelledby="guide-heading">
+        <h2 id="guide-heading">Схема и остановки</h2>
+        <div class="guide-workspace-columns">
+            <aside class="guide-map" id="guide-map" aria-label="Схема маршрута" data-guide-map>
+                <div class="guide-map-head">
+                    <h3>Схема маршрута</h3>
+                    <span>Без масштаба</span>
+                </div>
+                <div class="guide-map-plot">
+                    <span class="guide-map-north" aria-label="Север">С ↑</span>
+                    <div class="guide-map-lines" aria-hidden="true">
+                        <span class="guide-map-line" data-map-leg="0" style="--x:18.33%;--y:22.00%;--length:8.85%;--angle:62.54deg"></span>
+                        <span class="guide-map-line" data-map-leg="0" style="--x:22.41%;--y:32.83%;--length:10.53%;--angle:114.76deg"></span>
+                        <span class="guide-map-line" data-map-leg="0" style="--x:18.00%;--y:46.03%;--length:14.68%;--angle:12.54deg"></span>
+                        <span class="guide-map-line" data-map-leg="0" style="--x:32.33%;--y:50.42%;--length:32.93%;--angle:8.96deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:64.86%;--y:57.50%;--length:15.23%;--angle:12.28deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:79.74%;--y:61.97%;--length:12.90%;--angle:160.13deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:67.61%;--y:68.02%;--length:11.59%;--angle:18.02deg"></span>
+                        <span class="guide-map-line" data-map-leg="1" style="--x:78.64%;--y:72.97%;--length:3.45%;--angle:12.56deg"></span>
+                    </div>
+                    <button type="button" class="guide-pin" style="--x:18.33%;--y:22.00%" data-guide-target="stop-1" aria-controls="stop-1" aria-pressed="true" aria-label="1. Национальный музей Адыгеи">
+                        <span class="guide-pin-number">1</span>
+                        <span class="guide-pin-label">Музей</span>
+                    </button>
+                    <button type="button" class="guide-pin" style="--x:64.86%;--y:57.50%" data-guide-target="stop-2" aria-controls="stop-2" aria-pressed="false" aria-label="2. Городской парк">
+                        <span class="guide-pin-number">2</span>
+                        <span class="guide-pin-label">Горпарк</span>
+                    </button>
+                    <button type="button" class="guide-pin" style="--x:82.00%;--y:74.00%" data-guide-target="stop-3" aria-controls="stop-3" aria-pressed="false" aria-label="3. Набережная Белой">
+                        <span class="guide-pin-number">3</span>
+                        <span class="guide-pin-label">Белая</span>
+                    </button>
+                </div>
+                <p class="guide-map-caption"><a href="https://www.openstreetmap.org/copyright">© OpenStreetMap</a> <span>·</span> <a href="places.html#sources">Источники</a></p>
+            </aside>
+
+            <div class="guide-stage">
+                <article class="guide-stop" id="stop-1" data-guide-panel>
+                    <div class="guide-stop-title">
+                        <span class="guide-stop-number" aria-hidden="true">1</span>
+                        <div>
+                            <h3 data-guide-title tabindex="-1">Национальный музей Адыгеи</h3>
+                            <p>Улица Советская, 229</p>
+                        </div>
+                    </div>
+                    <figure class="guide-stop-photo guide-stop-map">
+                        <img src="images/map.png" alt="Карта с отметкой Национального музея Адыгеи" width="960" height="650" decoding="async">
+                        <figcaption>Точка встречи у музея · © OpenStreetMap contributors</figcaption>
+                    </figure>
+                    <div class="guide-stop-copy">
+                        <p>Начните на Советской улице у входа в музей.</p>
+                        <p>У главного входа удобно встретиться перед прогулкой. В собрании музея есть археологические находки, адыгские украшения и предметы быта. Если решите зайти внутрь, заложите время отдельно.</p>
+                        <div class="guide-stop-links">
+                            <a href="places.html#museum">Место в путеводителе <span aria-hidden="true">↗</span></a>
+                            <a class="guide-map-return" href="#guide-map"><span aria-hidden="true">↑</span> К схеме</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="guide-stop" id="stop-2" data-guide-panel>
+                    <div class="guide-stop-title">
+                        <span class="guide-stop-number" aria-hidden="true">2</span>
+                        <div>
+                            <h3 data-guide-title tabindex="-1">Городской парк</h3>
+                            <p>Улица Пушкина, 181</p>
+                        </div>
+                    </div>
+                    <figure class="guide-stop-photo">
+                        <img src="images/park.jpg" alt="Площадка перед городским парком и Краснооктябрьская улица в Майкопе" width="1280" height="857" decoding="async">
+                        <figcaption>У городского парка, 2010 год</figcaption>
+                    </figure>
+                    <div class="guide-stop-copy">
+                        <p>Войдите с улицы Пушкина и идите по открытым аллеям в сторону Белой.</p>
+                        <p>Вход со стороны Пушкина легко найти по вывеске «Горпарк Майкоп» с яблоком. Отсюда можно пройти по аллеям в ту часть парка, которая обращена к реке.</p>
+                        <div class="guide-stop-links">
+                            <a href="places.html#park">Место в путеводителе <span aria-hidden="true">↗</span></a>
+                            <a class="guide-map-return" href="#guide-map"><span aria-hidden="true">↑</span> К схеме</a>
+                        </div>
+                    </div>
+                </article>
+                <article class="guide-stop" id="stop-3" data-guide-panel>
+                    <div class="guide-stop-title">
+                        <span class="guide-stop-number" aria-hidden="true">3</span>
+                        <div>
+                            <h3 data-guide-title tabindex="-1">Набережная Белой</h3>
+                            <p>Набережная у «Золотого яблока»</p>
+                        </div>
+                    </div>
+                    <figure class="guide-stop-photo">
+                        <img src="images/river.jpg" alt="Каменистое русло Белой и деревья на берегу в Майкопе" width="960" height="720" decoding="async">
+                        <figcaption>Река Белая в Майкопе</figcaption>
+                    </figure>
+                    <div class="guide-stop-copy">
+                        <p>Если проход открыт, закончите прогулку на набережной у скульптуры «Золотое яблоко».</p>
+                        <p>На прогулочной набережной между городским бассейном и плотиной ищите скульптуру «Золотое яблоко». Если часть набережной закрыта, можно завершить прогулку у открытого участка парка.</p>
+                        <div class="guide-stop-links">
+                            <a href="places.html#belaya">Место в путеводителе <span aria-hidden="true">↗</span></a>
+                            <a class="guide-map-return" href="#guide-map"><span aria-hidden="true">↑</span> К схеме</a>
+                        </div>
+                    </div>
+                </article>
+                <div class="guide-controls" data-guide-controls hidden>
+                    <button type="button" data-guide-prev><span aria-hidden="true">←</span> Назад</button>
+                    <span role="status" data-guide-progress></span>
+                    <button type="button" data-guide-next>Дальше <span aria-hidden="true">→</span></button>
+                </div>
+            </div>
+        </div>
+        <div class="guide-plan">
+            <div>
+                <h2>План прогулки</h2>
+                <p>Укажите дату и число участников, чтобы сохранить маршрут с остановками в текстовом файле.</p>
+            </div>
+            <a class="button button-primary" href="index.html?route=river#booking">Составить план <span aria-hidden="true">↗</span></a>
+        </div>
+    </section>
+
+    <section class="wrap guide-more" aria-labelledby="more-heading">
+        <h2 id="more-heading">Другие прогулки</h2>
+        <div class="guide-choices guide-choices-two">
+            <a class="guide-choice guide-choice-center" href="center.html">
+                <span class="guide-choice-image"><img src="images/square.jpg" alt="" width="960" height="720" loading="lazy" decoding="async"></span>
+                <span class="guide-choice-copy">
+                    <span class="guide-choice-facts">≈ 0,7 км <span aria-hidden="true">·</span> 10–15 мин</span>
+                    <strong>Музей и площадь Дружбы</strong>
+                    <span class="guide-choice-link">Открыть маршрут <span aria-hidden="true">↗</span></span>
+                </span>
+            </a>
+            <a class="guide-choice guide-choice-station" href="station.html">
+                <span class="guide-choice-image"><img src="images/station.jpg" alt="" width="1400" height="785" loading="lazy" decoding="async"></span>
+                <span class="guide-choice-copy">
+                    <span class="guide-choice-facts">≈ 3,1 км <span aria-hidden="true">·</span> 45–50 мин</span>
+                    <strong>Из центра до вокзала</strong>
+                    <span class="guide-choice-link">Открыть маршрут <span aria-hidden="true">↗</span></span>
+                </span>
+            </a>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="wrap footer-inner guide-footer">
+        <a class="wordmark" href="index.html">Майкоп<span> пешком</span></a>
+        <a href="places.html#sources">Источники и фотографии</a>
+        <a href="#top">Наверх ↑</a>
+    </div>
+</footer>
+</body>
+</html>
