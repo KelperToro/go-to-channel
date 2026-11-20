@@ -8,6 +8,8 @@ const bookingPrepare = document.querySelector('#booking-prepare');
 const emailStatus = document.querySelector('#booking-email-status');
 const emailEndpoint = (booking.dataset.formsubmit || '').trim();
 const emailEnabled = location.protocol === 'https:' && /^[a-z\d_-]+$/i.test(emailEndpoint);
+const emailService = 'https://formsubmit.co/';
+
 const bookingStatus = document.querySelector('#booking-status');
 const bookingResult = document.querySelector('#booking-result');
 const bookingDownload = document.querySelector('#booking-download');
@@ -290,9 +292,19 @@ booking.addEventListener('input', (event) => {
 
 bookingRoute.addEventListener('change', () => selectRoute(bookingRoute.value));
 
+function warmEmailConnection() {
+    if (!bookingEmail.value) return;
+    const hint = document.createElement('link');
+    hint.rel = 'preconnect';
+    hint.href = emailService;
+    document.head.append(hint);
+    bookingEmail.removeEventListener('input', warmEmailConnection);
+}
+
 if (emailEnabled) {
     document.querySelector('#booking-email-note').hidden = false;
     bookingEmail.setAttribute('aria-describedby', 'booking-email-note');
+    bookingEmail.addEventListener('input', warmEmailConnection);
 }
 
 function sendBookingEmail(plan, email) {
@@ -320,7 +332,7 @@ function sendBookingEmail(plan, email) {
 
     const transport = document.createElement('form');
     transport.method = 'post';
-    transport.action = 'https://formsubmit.co/' + emailEndpoint;
+    transport.action = emailService + emailEndpoint;
     transport.target = frame.name;
     transport.hidden = true;
 
@@ -348,8 +360,10 @@ function sendBookingEmail(plan, email) {
     }
 
     let deadline;
+    let slowNotice;
     function finish(accepted) {
         window.clearTimeout(deadline);
+        window.clearTimeout(slowNotice);
         transport.remove();
         frame.remove();
         bookingPrepare.disabled = false;
@@ -368,6 +382,7 @@ function sendBookingEmail(plan, email) {
         } catch {
             if (frame.hidden) {
                 frame.hidden = false;
+                window.clearTimeout(slowNotice);
                 emailStatus.textContent = 'Откройте сообщение ниже и завершите проверку отправки.';
                 window.clearTimeout(deadline);
                 deadline = window.setTimeout(() => finish(false), 120000);
@@ -379,6 +394,9 @@ function sendBookingEmail(plan, email) {
 
     bookingPrepare.disabled = true;
     emailStatus.textContent = 'Отправляем копию плана на ' + email + '…';
+    slowNotice = window.setTimeout(() => {
+        emailStatus.textContent = 'Почтовый сервис отвечает дольше обычного. План уже доступен для скачивания.';
+    }, 5000);
     deadline = window.setTimeout(() => finish(false), 25000);
     emailStatus.after(frame);
     document.body.append(transport);

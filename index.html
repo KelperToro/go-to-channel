@@ -8,8 +8,8 @@
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="motion.css">
     <link rel="stylesheet" href="guide.css">
-    <link rel="stylesheet" href="planner.css">
-    <script src="script.js?v=2" defer></script>
+    <link rel="stylesheet" href="planner.css?v=3">
+    <script src="script.js?v=3" defer></script>
     <script src="motion.js" defer></script>
     <script src="hero-scenes.js" defer></script>
 </head>
@@ -243,12 +243,12 @@
     </section>
 
     <section id="booking" class="wrap section booking-layout" aria-labelledby="booking-heading">
-        <div class="booking-intro" data-reveal>
+        <div class="booking-intro">
             <h2 id="booking-heading">План прогулки</h2>
             <p>Выберите маршрут, дату и время старта. Готовый план с остановками можно скачать.</p>
         </div>
 
-        <form id="booking-form" method="post" data-formsubmit="c3016409a027871c0eaa88fd6080a812" data-reveal>
+        <form id="booking-form" method="post" data-formsubmit="c3016409a027871c0eaa88fd6080a812">
             <label class="full-width">Маршрут
                 <select name="route" required>
                     <option value="center" data-distance="0,7 км" data-duration="10–15 мин">Музей и площадь Дружбы</option>
@@ -274,7 +274,7 @@
             <p id="booking-email-status" class="full-width" role="status"></p>
         </form>
 
-        <aside class="booking-preview" aria-labelledby="booking-route-title" data-reveal>
+        <aside class="booking-preview" aria-labelledby="booking-route-title">
             <p class="booking-preview-label">Программа прогулки</p>
             <h3 id="booking-route-title">Музей и площадь Дружбы</h3>
             <p id="booking-preview-facts">≈ 0,7 км · 10–15 мин пешком</p>
@@ -287,7 +287,7 @@
             <a href="#contact">Карта точки старта <span aria-hidden="true">↗</span></a>
         </aside>
 
-        <div class="booking-profile" id="profile" data-reveal>
+        <div class="booking-profile" id="profile">
             <div class="booking-profile-intro">
                 <h3 id="profile-heading">Мои прогулки</h3>
                 <p>Войдите по имени или псевдониму, чтобы сохранять планы в этом браузере.</p>
