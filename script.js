@@ -3,6 +3,9 @@ const routePanels = Array.from(document.querySelectorAll('[data-route-panel]'));
 const booking = document.querySelector('#booking-form');
 const bookingRoute = booking.elements.route;
 const visitor = booking.elements.visitor;
+const bookingEmail = booking.elements.email;
+const bookingSend = document.querySelector('#booking-send');
+const emailEndpoint = (booking.dataset.formsubmit || '').trim();
 const bookingStatus = document.querySelector('#booking-status');
 const bookingResult = document.querySelector('#booking-result');
 const bookingDownload = document.querySelector('#booking-download');
@@ -169,7 +172,7 @@ function selectRoute(route) {
     renderBookingPreview();
 }
 
-function planFileUrl(plan) {
+function planFileUrl(plan, email = '') {
     const route = routes.get(plan.route);
     const lines = [
         'Маршрут по Майкопу',
@@ -180,6 +183,7 @@ function planFileUrl(plan) {
         'Участники — ' + plan.people
     ];
     if (plan.time) lines.push('Время старта — ' + plan.time);
+    if (email) lines.push('Email — ' + email);
     lines.push(
         'Расстояние — около ' + route.distance,
         'Время в пути — ' + route.duration + ' пешком',
@@ -283,14 +287,51 @@ booking.addEventListener('input', (event) => {
 
 bookingRoute.addEventListener('change', () => selectRoute(bookingRoute.value));
 
+if (location.protocol === 'https:' && /^[a-z\d_-]+$/i.test(emailEndpoint)) {
+    bookingSend.formAction = 'https://formsubmit.co/' + emailEndpoint;
+    bookingSend.hidden = false;
+    document.querySelector('#booking-email-note').hidden = false;
+
+    booking.addEventListener('formdata', ({ formData }) => {
+        const plan = currentPlan();
+        const route = routes.get(plan.route);
+        formData.delete('visitor');
+        formData.delete('route');
+        formData.delete('date');
+        formData.delete('people');
+        formData.delete('time');
+        formData.set('Имя', plan.visitor);
+        formData.set('Маршрут', route.title);
+        formData.set('Дата', formatDate(plan.date));
+        if (plan.time) formData.set('Время старта', plan.time);
+        formData.set('Участники', String(plan.people));
+        formData.set('Точка старта', 'Национальный музей Республики Адыгея, улица Советская, 229');
+        formData.set('Остановки', route.stops.map((stop) => stop.name).join(' → '));
+        formData.set('_subject', 'Новый план прогулки по Майкопу');
+        formData.set('_autoresponse', 'Вот ваш план прогулки по Майкопу. Возьмите его с собой на маршрут.');
+        formData.set('_template', 'table');
+        formData.set('_url', new URL('index.html', location.href).href);
+    });
+}
+
 booking.addEventListener('submit', (event) => {
-    event.preventDefault();
     const plan = currentPlan();
+    const sending = event.submitter === bookingSend && !bookingSend.hidden;
     visitor.setCustomValidity(plan.visitor ? '' : 'Введите имя.');
-    if (!booking.reportValidity()) return;
+    if (sending && !bookingEmail.value) {
+        event.preventDefault();
+        bookingStatus.textContent = 'Введите email, чтобы получить копию плана.';
+        bookingEmail.focus();
+        return;
+    }
+    const valid = booking.reportValidity();
+
+    if (sending && valid) return;
+    event.preventDefault();
+    if (!valid) return;
 
     clearBooking();
-    downloadUrl = planFileUrl(plan);
+    downloadUrl = planFileUrl(plan, bookingEmail.value);
     bookingDownload.href = downloadUrl;
     bookingResult.hidden = false;
     const schedule = ' ' + formatSchedule(plan) + '.';
