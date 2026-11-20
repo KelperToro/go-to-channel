@@ -72,9 +72,9 @@ function activeProfile() {
 }
 
 function writeProfileState() {
-    if (storageUnavailable) return;
     try {
         localStorage.setItem(profileStorageKey, JSON.stringify(profileState));
+        storageUnavailable = false;
     } catch {
         storageUnavailable = true;
     }
@@ -115,6 +115,11 @@ function currentPlan() {
     };
 }
 
+function samePlan(first, second) {
+    return first.route === second.route && first.visitor === second.visitor
+        && first.date === second.date && first.time === second.time && first.people === second.people;
+}
+
 function renderBookingPreview() {
     const plan = currentPlan();
     previewSchedule.textContent = formatSchedule(plan);
@@ -126,7 +131,15 @@ function renderBookingPreview() {
     previewFacts.textContent = '≈ ' + route.distance + ' · ' + route.duration + ' пешком';
     previewStops.replaceChildren(...route.stops.map((stop) => {
         const item = document.createElement('li');
-        item.textContent = stop.name;
+        const name = document.createElement('strong');
+        name.textContent = stop.name;
+        item.append(name);
+        if (stop.note) {
+            const note = document.createElement('span');
+            note.className = 'booking-stop-note';
+            note.textContent = stop.note;
+            item.append(note);
+        }
         return item;
     }));
 }
@@ -209,6 +222,9 @@ function savedPlanItem(plan, index, profile) {
     remove.setAttribute('aria-label', 'Удалить план прогулки «' + route.title + '» на ' + formatDate(plan.date));
     remove.addEventListener('click', () => {
         profile.plans.splice(index, 1);
+        if (!bookingResult.hidden && samePlan(plan, currentPlan())) {
+            bookingStatus.textContent = 'План прогулки готов. ' + formatSchedule(plan) + '.';
+        }
         writeProfileState();
         renderProfile();
         const nextAction = savedPlans.children[index]?.querySelector('button')
@@ -283,10 +299,7 @@ booking.addEventListener('submit', (event) => {
     const profile = activeProfile();
     if (!profile) return;
 
-    const alreadySaved = profile.plans.some((saved) => (
-        saved.route === plan.route && saved.visitor === plan.visitor
-        && saved.date === plan.date && saved.time === plan.time && saved.people === plan.people
-    ));
+    const alreadySaved = profile.plans.some((saved) => samePlan(saved, plan));
     if (!alreadySaved) {
         profile.plans.unshift(plan);
         writeProfileState();

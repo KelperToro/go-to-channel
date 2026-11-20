@@ -94,6 +94,12 @@
 }
 
 .booking-stops li::marker { color: var(--peach, #ffbf89); }
+
+.booking-stop-note {
+    display: block;
+    color: #e4dfd1;
+    font-size: .91rem;
+}
 .booking-preview a, .booking-stops li { overflow-wrap: anywhere; }
 .booking-preview a:focus-visible { outline-color: var(--peach, #ffbf89); }
 
