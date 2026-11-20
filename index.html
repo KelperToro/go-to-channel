@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="motion.css">
     <link rel="stylesheet" href="guide.css">
     <link rel="stylesheet" href="planner.css">
-    <script src="script.js" defer></script>
+    <script src="script.js?v=2" defer></script>
     <script src="motion.js" defer></script>
     <script src="hero-scenes.js" defer></script>
 </head>
@@ -265,7 +265,7 @@
             </label>
             <p id="booking-email-note" class="full-width" hidden>При подготовке плана копия отправится на этот email и владельцу сайта.</p>
             <div class="booking-actions full-width">
-                <button class="button button-primary" id="booking-prepare" type="submit">Подготовить план <span aria-hidden="true">↘</span></button>
+                <button class="button button-primary" id="booking-prepare" type="submit" disabled>Подготовить план <span aria-hidden="true">↘</span></button>
                 <div class="booking-result" id="booking-result" hidden>
                     <a id="booking-download" download="План прогулки по Майкопу.txt">Скачать план <span aria-hidden="true">↓</span></a>
                 </div>

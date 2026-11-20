@@ -461,6 +461,7 @@ const requestedRoute = new URLSearchParams(location.search).get('route');
 selectRoute(routes.has(requestedRoute) ? requestedRoute : bookingRoute.value);
 fillVisitor('', activeProfile()?.name || '');
 renderProfile();
+bookingPrepare.disabled = false;
 
 const photoDialog = document.querySelector('#photo-dialog');
 const photoButtons = Array.from(document.querySelectorAll('.photo-button'));
