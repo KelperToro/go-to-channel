@@ -246,10 +246,9 @@
         <div class="booking-intro" data-reveal>
             <h2 id="booking-heading">План прогулки</h2>
             <p>Выберите маршрут, дату и время старта. Готовый план с остановками можно скачать.</p>
-            <p id="booking-email-confirmation" hidden>FormSubmit принял заявку. Проверьте почту, чтобы получить план прогулки.</p>
         </div>
 
-        <form id="booking-form" method="post" rel="noopener" data-formsubmit="c3016409a027871c0eaa88fd6080a812" data-reveal>
+        <form id="booking-form" method="post" data-formsubmit="c3016409a027871c0eaa88fd6080a812" data-reveal>
             <label class="full-width">Маршрут
                 <select name="route" required>
                     <option value="center" data-distance="0,7 км" data-duration="10–15 мин">Музей и площадь Дружбы</option>
@@ -261,18 +260,18 @@
             <label>Участники<input name="people" type="number" inputmode="numeric" min="1" max="20" value="1" required></label>
             <label>Дата<input name="date" type="date" required></label>
             <label><span>Время старта <small>по желанию</small></span><input name="time" type="time"></label>
-            <label class="full-width"><span>Email <small>для копии плана</small></span>
+            <label class="full-width"><span>Email <small>по желанию</small></span>
                 <input type="email" name="email" maxlength="254" autocomplete="email" placeholder="name@example.com">
             </label>
+            <p id="booking-email-note" class="full-width" hidden>При подготовке плана копия отправится на этот email и владельцу сайта.</p>
             <div class="booking-actions full-width">
-                <button class="button button-primary" type="submit">Подготовить план <span aria-hidden="true">↘</span></button>
-                <button class="button booking-secondary" id="booking-send" type="submit" formtarget="_blank" aria-describedby="booking-email-note" hidden>Отправить на email <span aria-hidden="true">↗</span></button>
+                <button class="button button-primary" id="booking-prepare" type="submit">Подготовить план <span aria-hidden="true">↘</span></button>
                 <div class="booking-result" id="booking-result" hidden>
                     <a id="booking-download" download="План прогулки по Майкопу.txt">Скачать план <span aria-hidden="true">↓</span></a>
                 </div>
             </div>
-            <p id="booking-email-note" class="full-width" hidden>Откроется проверка FormSubmit. Копию плана получат посетитель и владелец сайта.</p>
             <output id="booking-status" class="full-width" aria-live="polite"></output>
+            <p id="booking-email-status" class="full-width" role="status"></p>
         </form>
 
         <aside class="booking-preview" aria-labelledby="booking-route-title" data-reveal>
