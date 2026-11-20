@@ -310,7 +310,11 @@ if (location.protocol === 'https:' && /^[a-z\d_-]+$/i.test(emailEndpoint)) {
         formData.set('_subject', 'Новый план прогулки по Майкопу');
         formData.set('_autoresponse', 'Вот ваш план прогулки по Майкопу. Возьмите его с собой на маршрут.');
         formData.set('_template', 'table');
-        formData.set('_url', new URL('index.html', location.href).href);
+        const bookingPage = new URL('index.html', location.href);
+        formData.set('_url', bookingPage.href);
+        bookingPage.search = new URLSearchParams({ route: plan.route, sent: '1' });
+        bookingPage.hash = 'booking';
+        formData.set('_next', bookingPage.href);
     });
 }
 
@@ -392,7 +396,11 @@ window.addEventListener('storage', (event) => {
     renderProfile();
 });
 
-const requestedRoute = new URLSearchParams(location.search).get('route');
+const bookingQuery = new URLSearchParams(location.search);
+const requestedRoute = bookingQuery.get('route');
+if (!bookingSend.hidden && bookingQuery.get('sent') === '1') {
+    document.querySelector('#booking-email-confirmation').hidden = false;
+}
 selectRoute(routes.has(requestedRoute) ? requestedRoute : bookingRoute.value);
 fillVisitor('', activeProfile()?.name || '');
 renderProfile();

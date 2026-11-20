@@ -12,6 +12,13 @@
     color: var(--muted);
 }
 
+#booking-email-confirmation {
+    padding: .6rem .8rem;
+    border-inline-start: 3px solid var(--green);
+    background: var(--cream);
+    color: var(--dark);
+}
+
 #booking-form {
     align-content: start;
     padding: clamp(1rem, 3.3vw, 2.2rem);
